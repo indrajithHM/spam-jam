@@ -26,11 +26,26 @@ body {
   padding: 12px 0;
   background: rgba(255, 255, 255, 0);
   
+}.QRCode {
+  width: 60%;
+  height: 40vh;          /* slightly taller */
+  max-height: 40vh;
+  max-width: 90vw;
+
+  object-fit: contain;
+  display: block;
+  margin: 10px auto;
+
+  background: #ffffff;
+  padding: 2px;          /* 👈 reduced from 12px */
+  border-radius: 14px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 
 .darkHeader {
-  background: rgba(244, 5, 5, 0);
+  /* background: rgba(244, 5, 5, 0); */
 }
 
 .headerLogo {

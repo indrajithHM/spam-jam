@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import logo from "./assets/logo.png";
-
+import qrcode from "./assets/qrcode.jpg";
 
 const GAME_DURATION = 60;
 const ADMIN_PIN = "9972";
@@ -13,7 +13,9 @@ export default function App() {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [running, setRunning] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [state, setState] = useState("IDLE");
+
+  // QR | WELCOME | RUNNING | STOPPED | ENDED | PIN | FORM | COUPON
+  const [state, setState] = useState("QR");
 
   const [pin, setPin] = useState("");
   const [pinError, setPinError] = useState("");
@@ -40,13 +42,11 @@ export default function App() {
     return () => clearInterval(t);
   }, [running, paused, timeLeft]);
 
-  // Beep for last 5 seconds
   useEffect(() => {
     if (!running || paused) return;
     if (timeLeft <= 5 && timeLeft > 0) playBeep();
   }, [timeLeft, running, paused]);
 
-  // Voice countdown (5..1)
   useEffect(() => {
     if (!running || paused) return;
     if (timeLeft === 5 && !countdownSpokenRef.current) {
@@ -55,7 +55,6 @@ export default function App() {
     }
   }, [timeLeft, running, paused]);
 
-  // Timeout handling
   useEffect(() => {
     if (timeLeft === 0 && running) {
       setRunning(false);
@@ -72,6 +71,23 @@ export default function App() {
       }, 300);
     }
   }, [timeLeft, running]);
+
+  /* ---------------- NAVIGATION ---------------- */
+
+  const goToQR = () => {
+    window.speechSynthesis.cancel();
+    setRunning(false);
+    setPaused(false);
+    setState("QR");
+    setTimeLeft(GAME_DURATION);
+    setCoupon(null);
+    setCouponGenerated(false);
+    setLoading(false);
+  };
+
+  const goToWelcome = () => {
+    setState("WELCOME");
+  };
 
   /* ---------------- GAME CONTROLS ---------------- */
 
@@ -100,22 +116,10 @@ export default function App() {
   const resumeGame = () => setPaused(false);
 
   const stopGame = () => {
-   
-    window.speechSynthesis.cancel();
-  setRunning(false);
-  setPaused(false);
-  setState("STOPPED");
-  };
-
-  const goHome = () => {
     window.speechSynthesis.cancel();
     setRunning(false);
     setPaused(false);
-    setState("IDLE");
-    setTimeLeft(GAME_DURATION);
-    setCoupon(null);
-    setCouponGenerated(false);
-    setLoading(false);
+    setState("STOPPED");
   };
 
   const verifyPin = () => {
@@ -164,8 +168,6 @@ export default function App() {
     if (!("speechSynthesis" in window)) return;
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "en-IN";
-    u.rate = 1;
-    u.volume = 1;
     window.speechSynthesis.speak(u);
   };
 
@@ -218,18 +220,13 @@ export default function App() {
   const shareOnWhatsApp = () => {
     if (!coupon) return;
     const mobileWithCountryCode = `91${coupon.mobile}`;
-
-    const message =
-      `🎉 Congratulations!\n\n` +
-      `You won the SPAM JAM 🎯\n\n` +
-      `STSID: ${coupon.stsid}\n` +
-      `Name: ${coupon.name}\n` +
-      `Game: ${coupon.gameName}\n` +
-      `Coupon Code: ${coupon.couponCode}\n\n` +
-      `Show this coupon to redeem.`;
+    const msg =
+      `🎉 Congratulations!\n\nYou won SPAM JAM 🎯\n\n` +
+      `STSID: ${coupon.stsid}\nName: ${coupon.name}\n` +
+      `Game: ${coupon.gameName}\nCoupon: ${coupon.couponCode}`;
 
     window.open(
-      `https://wa.me/${mobileWithCountryCode}?text=${encodeURIComponent(message)}`,
+      `https://wa.me/${mobileWithCountryCode}?text=${encodeURIComponent(msg)}`,
       "_blank"
     );
   };
@@ -238,11 +235,7 @@ export default function App() {
     const el = document.getElementById("print-area");
     if (!el) return;
 
-    const canvas = await html2canvas(el, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-    });
-
+    const canvas = await html2canvas(el, { scale: 2 });
     const blob = await new Promise(r => canvas.toBlob(r, "image/png"));
     if (!blob) return;
 
@@ -250,56 +243,49 @@ export default function App() {
       type: "image/png",
     });
 
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    if (navigator.canShare?.({ files: [file] })) {
       await navigator.share({
         files: [file],
-        title: "Winner Coupon",
-        text: "SPAM JAM – Winning Coupon 🎉",
+        title: "SPAM JAM Coupon",
       });
-    } else {
-      alert("Image sharing is supported on mobile devices only.");
     }
   };
-
-  const isValidMobile = /^[6-9]\d{9}$/.test(form.mobile);
-  const isLastTenSeconds = timeLeft <= 10 && timeLeft > 0;
 
   /* ---------------- UI ---------------- */
 
   return (
-    <div className={`app ${state === "RUNNING" ? "dark" : ""}`}>
-      <header className={`appHeader ${state === "RUNNING" ? "darkHeader" : ""}`}>
-  <img src={logo} alt="SPAM JAM Logo" className="headerLogo" />
-</header>
-      {state === "IDLE" && (
+    <div className="app">
+      <header className="appHeader">
+        <img src={logo} className="headerLogo" />
+      </header>
+
+      {/* QR PAGE */}
+      {state === "QR" && (
         <div className="home">
           <div className="homeContent">
-            <h2 className="festivalTitle">🎄 Happy Christmas 🎄</h2>
-            <p className="festivalSub">
-              Welcome to <b>SPAM JAM</b><br />
-              Have a wonderful game!
-            </p>
+            <img src={qrcode} className="QRCode" />
+            <button onClick={goToWelcome}>Proceed</button>
           </div>
         </div>
       )}
 
-     {(!state === "IDLE" || state === "RUNNING") && (
-  <div
-    className={`timer ${state === "RUNNING" ? "huge" : ""} ${
-      isLastTenSeconds ? "danger" : ""
-    }`}
-  >
-    {timeLeft}
-  </div>
-)}
-
-
-      {state === "IDLE" && (
-        <div className="startButton">
-          <button onClick={startGame}>Start Game</button>
+      {/* WELCOME PAGE */}
+      {state === "WELCOME" && (
+        <div className="home">
+          <div className="homeContent">
+            <h2>🎄 Happy Christmas 🎄</h2>
+            <p className="festivalSub"> Welcome to <b>SPAM JAM</b><br /> Have a wonderful game! </p>
+            <button onClick={startGame}>Start Game</button>
+          </div>
         </div>
       )}
 
+      {/* TIMER */}
+      {state === "RUNNING" && (
+        <div className="timer huge">{timeLeft}</div>
+      )}
+
+      {/* RUNNING CONTROLS */}
       {state === "RUNNING" && (
         <>
           {!paused ? (
@@ -307,25 +293,21 @@ export default function App() {
           ) : (
             <button onClick={resumeGame}>Resume</button>
           )}
-          <button className="secondary" onClick={stopGame}>
-            Stop
-          </button>
+          <button className="secondary" onClick={stopGame}>Stop</button>
         </>
       )}
 
+      {/* TIMEOUT */}
       {(state === "STOPPED" || state === "ENDED") && (
         <>
           <h3>TIMEOUT</h3>
-          <button onClick={() => setState("PIN")} disabled={couponGenerated}>
-            Generate Coupon
-          </button>
-          <button className="secondary" onClick={goHome}>
-            Start New Game
-          </button>
+          <button onClick={() => setState("PIN")}>Generate Coupon</button>
+          <button className="secondary" onClick={goToQR}>Start New Game</button>
         </>
       )}
 
-      {state === "PIN" && !couponGenerated && (
+      {/* PIN */}
+      {state === "PIN" && (
         <div className="card">
           <input
             type="password"
@@ -338,39 +320,31 @@ export default function App() {
         </div>
       )}
 
-      {state === "FORM" && !couponGenerated && (
+      {/* FORM */}
+      {state === "FORM" && (
         <div className="card">
           <input placeholder="STSID" onChange={e => setForm({ ...form, stsid: e.target.value })} />
           <input placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
           <input placeholder="Mobile" maxLength="10" onChange={e => setForm({ ...form, mobile: e.target.value })} />
           <input placeholder="Game Name" onChange={e => setForm({ ...form, gameName: e.target.value })} />
-
-          <button
-            disabled={loading || !isValidMobile || !form.name || !form.stsid || !form.gameName}
-            onClick={submitWinner}
-          >
-            {loading ? "Generating coupon..." : "Generate Coupon"}
+          <button onClick={submitWinner}>
+            {loading ? "Generating..." : "Generate Coupon"}
           </button>
         </div>
       )}
 
+      {/* COUPON */}
       {state === "COUPON" && coupon && (
         <>
           <div id="print-area" className="coupon">
-            <h2>🎉Winner Coupon🎉</h2>
-            <p><b>STSID:</b> {coupon.stsid}</p>
-            <p><b>Name:</b> {coupon.name}</p>
-            <p><b>Mobile:</b> {coupon.mobile}</p>
-            <p><b>Game:</b> {coupon.gameName}</p>
+            <h2>🎉 Winner Coupon 🎉</h2>
+            <p>{coupon.name}</p>
             <h3>{coupon.couponCode}</h3>
           </div>
 
-          <button onClick={shareOnWhatsApp}>Share on WhatsApp (Text)</button>
-          <button onClick={shareCouponAsImage}>Share Coupon Image</button>
-          <button onClick={() => window.print()}>Print</button>
-          <button className="secondary" onClick={goHome}>
-            Start New Game
-          </button>
+          <button onClick={shareOnWhatsApp}>WhatsApp</button>
+          <button onClick={shareCouponAsImage}>Share Image</button>
+          <button onClick={goToQR} className="secondary">Start New Game</button>
         </>
       )}
     </div>
