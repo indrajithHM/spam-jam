@@ -27,10 +27,10 @@ body {
   background: rgba(255, 255, 255, 0);
   
 }.QRCode {
-  width: 60%;
+  width: 80%;
   height: 40vh;          /* slightly taller */
   max-height: 40vh;
-  max-width: 90vw;
+  max-width: 100vw;
 
   object-fit: contain;
   display: block;
