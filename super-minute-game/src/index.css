@@ -37,7 +37,7 @@ body {
   margin: 10px auto;
 
   background: #ffffff;
-  padding: 2px;          /* 👈 reduced from 12px */
+  padding: 6px;          /* 👈 reduced from 12px */
   border-radius: 14px;
 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
