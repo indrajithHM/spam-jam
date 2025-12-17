@@ -74,7 +74,12 @@ h1 {
 
 .home {
   margin-top: 30px;
+  /* min-height: calc(100vh - 120px);  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 .homeContent {
   padding: 24px;
@@ -86,7 +91,7 @@ h1 {
 }
 
 .festivalTitle {
-  font-size: 26px;
+  font-size: 45px;
   margin-bottom: 10px;
 }
 
