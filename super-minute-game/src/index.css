@@ -1,0 +1,184 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f2f4f8;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.app {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px 16px;
+  background: white;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.dark {
+  background: black;
+  color: white;
+}
+
+h1 {
+  margin: 10px 0 20px;
+  font-size: 22px;
+}
+
+/* ---------------- HOME ---------------- */
+
+.home {
+  margin-top: 30px;
+}
+
+.homeContent {
+  padding: 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #eb2525, #1e40af);
+  color: white;
+  box-shadow: 0 20px 40px rgba(37, 99, 235, 0.35);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.festivalTitle {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.festivalSub {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ---------------- START BUTTON ---------------- */
+
+.startButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.startButton button {
+  font-size: 1.6rem;
+  padding: 18px 36px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  box-shadow: 0 16px 30px rgba(22, 163, 74, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.startButton button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(22, 163, 74, 0.55);
+}
+
+/* ---------------- TIMER ---------------- */
+
+.timer {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 16px auto;
+  text-align: center;
+}
+
+/* FIXED HUGE TIMER */
+.timer.huge {
+  font-size: clamp(120px, 22vw, 260px);
+  font-weight: 600;
+  line-height: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+
+.timer.danger {
+  color: #dc2626;
+}
+
+/* ---------------- BUTTONS ---------------- */
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+}
+
+button.secondary {
+  background: #6b7280;
+}
+
+button:disabled {
+  background: #9ca3af;
+}
+
+/* ---------------- FORMS ---------------- */
+
+.card {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+}
+
+input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+/* ---------------- COUPON ---------------- */
+
+.coupon {
+   background: linear-gradient(135deg, #37db2f, #053bed);
+  margin-top: 20px;
+  padding: 20px;
+  /* border: 2px dashed black; */
+  border-radius: 12px;
+}
+
+/* ---------------- TEXT ---------------- */
+
+p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 14px;
+}
+
+/* ---------------- ANIMATION ---------------- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
