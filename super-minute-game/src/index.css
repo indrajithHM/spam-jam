@@ -12,13 +12,41 @@ body {
   max-width: 420px;
   margin: auto;
   padding: 20px 16px;
-  background: white;
+  background: linear-gradient(180deg, #eb0303, #61ad80);
   min-height: 100vh;
   text-align: center;
 }
+.appHeader {
+  position: static;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  background: rgba(255, 255, 255, 0);
+  
+}
+
+
+.darkHeader {
+  background: rgba(244, 5, 5, 0);
+}
+
+.headerLogo {
+  width: 180px;
+  height: auto;
+}
+
+
+@media (min-width: 768px) {
+  .headerLogo {
+    width: 180px;
+  }
+}
 
 .dark {
-  background: black;
+  background: linear-gradient(180deg, #eb0303, #61ad80);
   color: white;
 }
 
@@ -85,11 +113,11 @@ h1 {
 
 /* FIXED HUGE TIMER */
 .timer.huge {
-  font-size: clamp(120px, 22vw, 260px);
+  font-size: clamp(110px, 22vw, 220px);
   font-weight: 600;
   line-height: 1;
-  width: 100%;
-  max-width: 100%;
+  width: 95%;
+  max-width: 95%;
   overflow: hidden;
   text-align: center;
   display: flex;
@@ -111,12 +139,14 @@ button {
   border: none;
   font-size: 16px;
   cursor: pointer;
-  background: #2563eb;
+  background:linear-gradient(135deg, #16a34a, #15803d);
+    box-shadow: 0 16px 30px rgba(22, 163, 74, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   color: white;
 }
 
 button.secondary {
-  background: #6b7280;
+  background: #cd0f0f;
 }
 
 button:disabled {

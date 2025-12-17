@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
+import logo from "./assets/logo.png";
+
 
 const GAME_DURATION = 60;
 const ADMIN_PIN = "9972";
@@ -98,9 +100,11 @@ export default function App() {
   const resumeGame = () => setPaused(false);
 
   const stopGame = () => {
-    setRunning(false);
-    setPaused(false);
-    setState("STOPPED");
+   
+    window.speechSynthesis.cancel();
+  setRunning(false);
+  setPaused(false);
+  setState("STOPPED");
   };
 
   const goHome = () => {
@@ -264,6 +268,9 @@ export default function App() {
 
   return (
     <div className={`app ${state === "RUNNING" ? "dark" : ""}`}>
+      <header className={`appHeader ${state === "RUNNING" ? "darkHeader" : ""}`}>
+  <img src={logo} alt="SPAM JAM Logo" className="headerLogo" />
+</header>
       {state === "IDLE" && (
         <div className="home">
           <div className="homeContent">
@@ -276,7 +283,7 @@ export default function App() {
         </div>
       )}
 
-     {(state === "IDLE" || state === "RUNNING") && (
+     {(!state === "IDLE" || state === "RUNNING") && (
   <div
     className={`timer ${state === "RUNNING" ? "huge" : ""} ${
       isLastTenSeconds ? "danger" : ""
