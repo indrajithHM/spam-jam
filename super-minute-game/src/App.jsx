@@ -221,7 +221,7 @@ export default function App() {
     if (!coupon) return;
     const mobileWithCountryCode = `91${coupon.mobile}`;
     const msg =
-      `🎉 Congratulations!\n\nYou won SPAM JAM 🎯\n\n` +
+      `🎉 Congratulations!🎉\n\nYou won SPAM JAM 🎯\n\n` +
       `STSID: ${coupon.stsid}\nName: ${coupon.name}\n` +
       `Game: ${coupon.gameName}\nCoupon: ${coupon.couponCode}`;
 
@@ -344,7 +344,9 @@ export default function App() {
         <>
           <div id="print-area" className="coupon">
             <h2>🎉 Winner Coupon 🎉</h2>
-            <p>{coupon.name}</p>
+            <h3>STSID:{coupon.stsid}</h3>
+            <h3>{coupon.name}</h3>
+            <h4>GAMES:{coupon.gameName}</h4>
             <h3>{coupon.couponCode}</h3>
           </div>
 
