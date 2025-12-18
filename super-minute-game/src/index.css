@@ -60,11 +60,11 @@ body {
 
 /* Bottom button container */
 .startGameWrapper {
-  position: absolute;
-  bottom: 12vh;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 28px;          /* space from text */
+  display: flex;
+  justify-content: center;   /* horizontal center */
 }
+
 
 /* Circular Start button */
 .startGameFab {
@@ -99,7 +99,7 @@ body {
 
 
 .headerLogo {
-  width: 180px;
+  width: 200px;
   height: auto;
 }
 
