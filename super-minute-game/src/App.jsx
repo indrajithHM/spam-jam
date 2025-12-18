@@ -275,8 +275,13 @@ export default function App() {
           <div className="homeContent">
             <h2>🎄 Happy Christmas 🎄</h2>
             <p className="festivalSub"> Welcome to <b>SPAM JAM</b><br /> Have a wonderful game! </p>
-            <button onClick={startGame}>Start Game</button>
+            {/* <button onClick={startGame}>Start Game</button> */}
           </div>
+           <div className="startGameWrapper">
+      <button className="startGameFab" onClick={startGame}>
+        ▶
+      </button>
+    </div>
         </div>
       )}
 

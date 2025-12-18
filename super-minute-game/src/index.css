@@ -44,9 +44,51 @@ body {
 }
 
 
-.darkHeader {
-  /* background: rgba(244, 5, 5, 0); */
+.home {
+  position: relative;
+  min-height: calc(100vh - 120px); /* header safe */
+  padding-bottom: 120px;           /* space for button */
 }
+
+/* Bottom button container */
+.startGameWrapper {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Circular Start button */
+.startGameFab {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  font-size: 36px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #fff;
+
+  box-shadow:
+    0 12px 30px rgba(22, 163, 74, 0.6),
+    0 0 0 6px rgba(22, 163, 74, 0.25);
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.startGameFab:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 16px 40px rgba(22, 163, 74, 0.75),
+    0 0 0 10px rgba(22, 163, 74, 0.3);
+}
+
+.startGameFab:active {
+  transform: scale(0.96);
+}
+
 
 .headerLogo {
   width: 180px;
